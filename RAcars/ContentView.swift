@@ -2,7 +2,13 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var selectedModelIndex = 0  // Indice du modèle sélectionné
-    let models = ["toycar", "chair_swan", "gramophone"]  // Liste des noms des modèles disponibles
+    // Dictionnaire associant chaque emoji à son nom de fichier modèle
+    let modelData = [
+        "🚗": "toycar",
+        "🪑": "chair_swan",
+        "📻": "gramophone",
+        "☕️": "cup_saucer_set"
+    ]
 
     var body: some View {
         NavigationView {
@@ -13,19 +19,18 @@ struct ContentView: View {
 
                 // Slider de sélection de modèle
                 TabView(selection: $selectedModelIndex) {
-                    ForEach(0..<models.count, id: \.self) { index in
+                    ForEach(Array(modelData.keys).indices, id: \.self) { index in
+                        let emoji = Array(modelData.keys)[index]  // Obtenir l'emoji
+                        let modelName = modelData[emoji]!  // Récupérer le nom du modèle
                         VStack {
-                            Text(models[index])  // Affiche le nom du modèle
-                                .font(.headline)
+                            Text(emoji)  // Affiche l'emoji
+                                .font(.system(size: 100))  // Ajuster la taille de l'emoji
                                 .padding()
 
-                            // Ici, tu pourrais ajouter une image ou un rendu simplifié du modèle 3D
-                            // En l'absence d'image, on montre simplement un rectangle
-                            Rectangle()
-                                .fill(Color.gray)
-                                .frame(width: 200, height: 200)
-                                .cornerRadius(10)
-                                .overlay(Text("Modèle \(index + 1)").foregroundColor(.white))
+                            // Afficher le nom du modèle sous l'emoji
+                            Text(modelName)
+                                .font(.headline)
+                                .padding()
                         }
                         .padding()
                     }
@@ -33,8 +38,11 @@ struct ContentView: View {
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))  // Pagination
                 .frame(height: 300)
 
-                // Lien vers la vue AR avec le modèle sélectionné
-                NavigationLink(destination: ARViewContainer(selectedModel: models[selectedModelIndex])) {
+                // Lien vers la vue AR avec le nom de fichier du modèle sélectionné
+                let selectedEmoji = Array(modelData.keys)[selectedModelIndex]
+                let selectedModelName = modelData[selectedEmoji]!
+
+                NavigationLink(destination: ARViewContainer(selectedModel: selectedModelName)) {
                     Text("Démarrer AR")
                         .font(.headline)
                         .padding()
