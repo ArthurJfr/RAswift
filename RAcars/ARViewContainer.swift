@@ -7,12 +7,12 @@ struct ARViewContainer: UIViewRepresentable {
     func makeUIView(context: Context) -> ARView {
         let arView = ARView(frame: .zero)
         
-        // Configurer la session AR sans dépendre des surfaces détectées
+        // Configurer la session AR avec la détection des surfaces horizontales
         let configuration = ARWorldTrackingConfiguration()
         configuration.planeDetection = [.horizontal]  // Détection des surfaces horizontales
         arView.session.run(configuration)
         
-        // Ajout des gestes pour déplacer le modèle
+        // Ajouter les gestes pour déplacer, redimensionner et faire pivoter le modèle
         context.coordinator.addGestures(to: arView)
         
         // Positionner le modèle à 1 mètre devant la caméra
@@ -33,11 +33,14 @@ struct ARViewContainer: UIViewRepresentable {
             // Charger le modèle 3D
             let modelEntity = try ModelEntity.loadModel(named: "toycar.usdz")  // Remplace "toycar" par le nom de ton modèle
             
+            // Assigner un nom à l'entité pour faciliter sa manipulation
+            modelEntity.name = "toycar"
+            
             // Ajuster l'échelle du modèle pour qu'il soit visible
             modelEntity.scale = SIMD3<Float>(0.1, 0.1, 0.1)  // Ajuster la taille du modèle
             
             // Créer une ancre virtuelle à 1 mètre devant la caméra
-            let cameraAnchor = AnchorEntity(world: [0, -1, -3])  // Positionner à 1 mètre devant la caméra
+            let cameraAnchor = AnchorEntity(world: [0, -1, -3])  // Ajuster la position selon tes préférences
             cameraAnchor.addChild(modelEntity)  // Ajouter le modèle à l'ancre
             
             // Ajouter l'ancre avec le modèle à la scène AR
