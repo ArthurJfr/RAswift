@@ -3,49 +3,48 @@ import RealityKit
 import ARKit
 
 struct ARViewContainer: UIViewRepresentable {
+    let selectedModel: String  // Modèle sélectionné
 
     func makeUIView(context: Context) -> ARView {
         let arView = ARView(frame: .zero)
         
         // Configurer la session AR avec la détection des surfaces horizontales
         let configuration = ARWorldTrackingConfiguration()
-        configuration.planeDetection = [.horizontal]  // Détection des surfaces horizontales
+        configuration.planeDetection = [.horizontal]
         arView.session.run(configuration)
         
         // Ajouter les gestes pour déplacer, redimensionner et faire pivoter le modèle
         context.coordinator.addGestures(to: arView)
         
-        // Positionner le modèle à 1 mètre devant la caméra
+        // Positionner le modèle sélectionné à 1 mètre devant la caméra
         placeModelInFrontOfCamera(arView: arView)
         
         return arView
     }
 
     func updateUIView(_ uiView: ARView, context: Context) {}
-    
+
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
-    
-    // Fonction pour positionner le modèle à 1 mètre devant la caméra
+
+    // Fonction pour positionner le modèle sélectionné à 1 mètre devant la caméra
     func placeModelInFrontOfCamera(arView: ARView) {
         do {
-            // Charger le modèle 3D
-            let modelEntity = try ModelEntity.loadModel(named: "toycar.usdz")  // Remplace "toycar" par le nom de ton modèle
-            
-            // Assigner un nom à l'entité pour faciliter sa manipulation
-            modelEntity.name = "toycar"
-            
-            // Ajuster l'échelle du modèle pour qu'il soit visible
-            modelEntity.scale = SIMD3<Float>(0.1, 0.1, 0.1)  // Ajuster la taille du modèle
-            
+            // Charger dynamiquement le modèle 3D sélectionné
+            let modelEntity = try ModelEntity.loadModel(named: "\(selectedModel).usdz")
+            modelEntity.name = selectedModel  // Assigner le nom du modèle
+
+            // Ajuster l'échelle du modèle pour qu'il soit adapté à l'environnement
+            modelEntity.scale = SIMD3<Float>(0.05, 0.05, 0.05)  // Réduire l'échelle du modèle
+
             // Créer une ancre virtuelle à 1 mètre devant la caméra
-            let cameraAnchor = AnchorEntity(world: [0, -1, -3])  // Ajuster la position selon tes préférences
-            cameraAnchor.addChild(modelEntity)  // Ajouter le modèle à l'ancre
-            
+            let cameraAnchor = AnchorEntity(world: [0, -1, -3])
+            cameraAnchor.addChild(modelEntity)
+
             // Ajouter l'ancre avec le modèle à la scène AR
             arView.scene.addAnchor(cameraAnchor)
-            print("Modèle ajouté à 1 mètre devant la caméra.")
+            print("Modèle \(selectedModel) ajouté à 1 mètre devant la caméra.")
         } catch {
             print("Erreur lors du chargement du modèle : \(error)")
         }
@@ -53,67 +52,112 @@ struct ARViewContainer: UIViewRepresentable {
     
     class Coordinator: NSObject, ARSessionDelegate {
         var parent: ARViewContainer
+        var arView: ARView?  // Référence à ARView pour accéder à la scène
+        var initialScale: SIMD3<Float>? = nil
+        var initialRotation: simd_quatf? = nil  // Conserver la rotation initiale
 
         init(_ parent: ARViewContainer) {
             self.parent = parent
         }
 
-        // Ajouter des gestes pour déplacer et interagir avec le modèle
+        // Ajouter des gestes pour déplacer, redimensionner et faire pivoter le modèle
         func addGestures(to arView: ARView) {
-            // Pan Gesture (glisser pour déplacer le modèle)
+            self.arView = arView  // Stocker une référence à ARView
+
+            // Pan Gesture (glisser pour déplacer le modèle librement)
             let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
             arView.addGestureRecognizer(panGesture)
             
-            // Pinch Gesture (pincer pour redimensionner)
+            // Pinch Gesture (pincer pour redimensionner le modèle)
             let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(handlePinch(_:)))
             arView.addGestureRecognizer(pinchGesture)
             
-            // Rotation Gesture (tourner pour faire pivoter le modèle)
+            // Rotation Gesture (tourner pour faire pivoter le modèle à 360 degrés)
             let rotationGesture = UIRotationGestureRecognizer(target: self, action: #selector(handleRotation(_:)))
             arView.addGestureRecognizer(rotationGesture)
         }
         
-        // Gestion des gestes
+        // Gérer le déplacement libre du modèle
         @objc func handlePan(_ gesture: UIPanGestureRecognizer) {
-            guard let arView = gesture.view as? ARView else { return }
+            guard let arView = arView else { return }
             let location = gesture.location(in: arView)
-            let hits = arView.hitTest(location, types: .existingPlaneUsingExtent)
             
-            if let firstHit = hits.first {
-                let transform = firstHit.worldTransform
-                let newPosition = SIMD3(x: transform.columns.3.x, y: transform.columns.3.y, z: transform.columns.3.z)
+            // Déplacement libre : ajuster X et Z en fonction du déplacement
+            if let modelEntity = arView.scene.findEntity(named: parent.selectedModel) as? ModelEntity {
+                let translation = gesture.translation(in: arView)
+                let currentPosition = modelEntity.position
+                let newPosition = SIMD3<Float>(
+                    currentPosition.x + Float(translation.x * 0.001),  // Ajustement de la vitesse du déplacement
+                    currentPosition.y,  // Garder la position Y pour la fixation automatique
+                    currentPosition.z + Float(translation.y * 0.001)
+                )
                 
-                // Récupérer l'entité à déplacer et mettre à jour sa position
-                if let modelEntity = arView.scene.findEntity(named: "toycar") as? ModelEntity {
-                    modelEntity.position = newPosition
-                    print("Modèle déplacé à la nouvelle position.")
+                modelEntity.position = newPosition
+                gesture.setTranslation(.zero, in: arView)  // Réinitialiser la translation pour éviter un cumul
+            }
+        }
+
+        // Gérer la détection de la surface plane et la fixation automatique
+        func session(_ session: ARSession, didUpdate anchors: [ARAnchor]) {
+            for anchor in anchors {
+                if let planeAnchor = anchor as? ARPlaneAnchor {
+                    print("Surface plane détectée : \(planeAnchor)")
+                    
+                    // Fixer le modèle à la surface plane détectée
+                    if let arView = arView, let modelEntity = arView.scene.findEntity(named: parent.selectedModel) as? ModelEntity {
+                        let modelPosition = modelEntity.position
+                        modelEntity.position = SIMD3<Float>(modelPosition.x, Float(planeAnchor.transform.columns.3.y), modelPosition.z)
+                        print("Modèle fixé à la surface plane détectée.")
+                    }
                 }
             }
         }
 
+        // Gérer le redimensionnement du modèle avec le geste de pincement
         @objc func handlePinch(_ gesture: UIPinchGestureRecognizer) {
-            guard let arView = gesture.view as? ARView else { return }
+            guard let arView = arView else { return }
             
-            if let modelEntity = arView.scene.findEntity(named: "toycar") as? ModelEntity {
-                let scale = Float(gesture.scale)
-                modelEntity.scale = SIMD3<Float>(repeating: scale)
-                gesture.scale = 1.0  // Réinitialiser après chaque pincement
+            if let modelEntity = arView.scene.findEntity(named: parent.selectedModel) as? ModelEntity {
+                if gesture.state == .began {
+                    // Enregistrer l'échelle initiale lors du début du geste
+                    initialScale = modelEntity.scale
+                }
+                
+                if let initialScale = initialScale {
+                    // Ajuster l'échelle proportionnellement au geste
+                    let scaleFactor = Float(gesture.scale)
+                    modelEntity.scale = initialScale * scaleFactor
+                }
+                
+                // Réinitialiser l'échelle du geste après chaque modification
+                if gesture.state == .ended {
+                    gesture.scale = 1.0
+                }
             }
         }
 
+        // Gérer la rotation du modèle à 360 degrés
         @objc func handleRotation(_ gesture: UIRotationGestureRecognizer) {
-            guard let arView = gesture.view as? ARView else { return }
+            guard let arView = arView else { return }
             
-            if let modelEntity = arView.scene.findEntity(named: "toycar") as? ModelEntity {
-                let rotation = Float(gesture.rotation)
-                modelEntity.orientation = simd_quatf(angle: rotation, axis: [0, 1, 0])
-                gesture.rotation = 0  // Réinitialiser après chaque rotation
-            }
-        }
+            if let modelEntity = arView.scene.findEntity(named: parent.selectedModel) as? ModelEntity {
+                if gesture.state == .began {
+                    // Enregistrer la rotation initiale lors du début du geste
+                    initialRotation = modelEntity.orientation
+                }
+                
+                if let initialRotation = initialRotation {
+                    // Appliquer une rotation supplémentaire basée sur le geste
+                    let rotationAngle = Float(gesture.rotation)
+                    let additionalRotation = simd_quatf(angle: rotationAngle, axis: [0, 1, 0])
+                    modelEntity.orientation = additionalRotation * initialRotation
+                }
 
-        // ARSessionDelegate - appelé lorsqu'une nouvelle surface est détectée
-        func session(_ session: ARSession, didAdd anchors: [ARAnchor]) {
-            // Gestion des surfaces détectées (si besoin)
+                // Réinitialiser la rotation du geste après chaque modification
+                if gesture.state == .ended {
+                    gesture.rotation = 0
+                }
+            }
         }
     }
 }
