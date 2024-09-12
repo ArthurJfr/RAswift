@@ -14,6 +14,8 @@
 		695C795C2C8F1E30004AD134 /* RAcarsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695C795B2C8F1E30004AD134 /* RAcarsTests.swift */; };
 		695C79662C8F1E30004AD134 /* RAcarsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695C79652C8F1E30004AD134 /* RAcarsUITests.swift */; };
 		695C79682C8F1E30004AD134 /* RAcarsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695C79672C8F1E30004AD134 /* RAcarsUITestsLaunchTests.swift */; };
+		695C79752C8F32F1004AD134 /* ARViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695C79742C8F32F1004AD134 /* ARViewContainer.swift */; };
+		695C79772C8F3A2B004AD134 /* toycar.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 695C79762C8F3A2B004AD134 /* toycar.usdz */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +46,8 @@
 		695C79612C8F1E30004AD134 /* RAcarsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RAcarsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		695C79652C8F1E30004AD134 /* RAcarsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RAcarsUITests.swift; sourceTree = "<group>"; };
 		695C79672C8F1E30004AD134 /* RAcarsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RAcarsUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		695C79742C8F32F1004AD134 /* ARViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewContainer.swift; sourceTree = "<group>"; };
+		695C79762C8F3A2B004AD134 /* toycar.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = toycar.usdz; path = ../../../Downloads/toycar.usdz; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,7 +101,9 @@
 				695C794A2C8F1E2E004AD134 /* AppDelegate.swift */,
 				695C794C2C8F1E2E004AD134 /* ContentView.swift */,
 				695C794E2C8F1E30004AD134 /* Assets.xcassets */,
+				695C79762C8F3A2B004AD134 /* toycar.usdz */,
 				695C79502C8F1E30004AD134 /* Preview Content */,
+				695C79742C8F32F1004AD134 /* ARViewContainer.swift */,
 			);
 			path = RAcars;
 			sourceTree = "<group>";
@@ -232,6 +238,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				695C79522C8F1E30004AD134 /* Preview Assets.xcassets in Resources */,
+				695C79772C8F3A2B004AD134 /* toycar.usdz in Resources */,
 				695C794F2C8F1E30004AD134 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -259,6 +266,7 @@
 			files = (
 				695C794D2C8F1E2E004AD134 /* ContentView.swift in Sources */,
 				695C794B2C8F1E2E004AD134 /* AppDelegate.swift in Sources */,
+				695C79752C8F32F1004AD134 /* ARViewContainer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -419,9 +427,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RAcars/Preview Content\"";
+				DEVELOPMENT_TEAM = L72689HR7Q;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
@@ -438,6 +448,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = NFS.RAcars;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -449,9 +460,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RAcars/Preview Content\"";
+				DEVELOPMENT_TEAM = L72689HR7Q;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
@@ -468,6 +481,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = NFS.RAcars;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
