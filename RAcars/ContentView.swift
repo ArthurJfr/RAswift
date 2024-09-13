@@ -7,7 +7,11 @@ struct ContentView: View {
         "🚗": "toycar",
         "🪑": "chair_swan",
         "📻": "gramophone",
-        "☕️": "cup_saucer_set"
+        "☕️": "cup_saucer_set",
+        "🤖" : "robot_walk_idle",
+        "🌼" : "flower_tulip",
+        "👟" : "sneaker_pegasustrail",
+        "🎸" : "fender_stratocaster"
     ]
 
     var body: some View {
@@ -42,7 +46,7 @@ struct ContentView: View {
                 let selectedEmoji = Array(modelData.keys)[selectedModelIndex]
                 let selectedModelName = modelData[selectedEmoji]!
 
-                NavigationLink(destination: ARViewContainer(selectedModel: selectedModelName)) {
+                NavigationLink(destination: ARViewWithControl(selectedModel : selectedModelName)) {
                     Text("Démarrer AR")
                         .font(.headline)
                         .padding()

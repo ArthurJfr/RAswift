@@ -19,6 +19,10 @@
 		695C79792C92EB0C004AD134 /* chair_swan.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 695C79782C92EB0C004AD134 /* chair_swan.usdz */; };
 		695C797B2C92EB16004AD134 /* cup_saucer_set.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 695C797A2C92EB16004AD134 /* cup_saucer_set.usdz */; };
 		695C797D2C92EB69004AD134 /* gramophone.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 695C797C2C92EB69004AD134 /* gramophone.usdz */; };
+		695C797F2C933573004AD134 /* robot_walk_idle.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 695C797E2C933573004AD134 /* robot_walk_idle.usdz */; };
+		695C79812C9469B5004AD134 /* fender_stratocaster.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 695C79802C9469B5004AD134 /* fender_stratocaster.usdz */; };
+		695C79842C9469D2004AD134 /* sneaker_pegasustrail.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 695C79822C9469D2004AD134 /* sneaker_pegasustrail.usdz */; };
+		695C79852C9469D2004AD134 /* flower_tulip.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 695C79832C9469D2004AD134 /* flower_tulip.usdz */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +58,10 @@
 		695C79782C92EB0C004AD134 /* chair_swan.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = chair_swan.usdz; path = ../../../Downloads/chair_swan.usdz; sourceTree = "<group>"; };
 		695C797A2C92EB16004AD134 /* cup_saucer_set.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = cup_saucer_set.usdz; path = ../../../Downloads/cup_saucer_set.usdz; sourceTree = "<group>"; };
 		695C797C2C92EB69004AD134 /* gramophone.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = gramophone.usdz; path = ../../../Downloads/gramophone.usdz; sourceTree = "<group>"; };
+		695C797E2C933573004AD134 /* robot_walk_idle.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = robot_walk_idle.usdz; path = ../../../Downloads/robot_walk_idle.usdz; sourceTree = "<group>"; };
+		695C79802C9469B5004AD134 /* fender_stratocaster.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = fender_stratocaster.usdz; path = ../../../Downloads/fender_stratocaster.usdz; sourceTree = "<group>"; };
+		695C79822C9469D2004AD134 /* sneaker_pegasustrail.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = sneaker_pegasustrail.usdz; path = ../../../Downloads/sneaker_pegasustrail.usdz; sourceTree = "<group>"; };
+		695C79832C9469D2004AD134 /* flower_tulip.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = flower_tulip.usdz; path = ../../../Downloads/flower_tulip.usdz; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +115,10 @@
 				695C794A2C8F1E2E004AD134 /* AppDelegate.swift */,
 				695C794C2C8F1E2E004AD134 /* ContentView.swift */,
 				695C794E2C8F1E30004AD134 /* Assets.xcassets */,
+				695C79832C9469D2004AD134 /* flower_tulip.usdz */,
+				695C79822C9469D2004AD134 /* sneaker_pegasustrail.usdz */,
+				695C79802C9469B5004AD134 /* fender_stratocaster.usdz */,
+				695C797E2C933573004AD134 /* robot_walk_idle.usdz */,
 				695C797C2C92EB69004AD134 /* gramophone.usdz */,
 				695C797A2C92EB16004AD134 /* cup_saucer_set.usdz */,
 				695C79782C92EB0C004AD134 /* chair_swan.usdz */,
@@ -249,8 +261,12 @@
 				695C79522C8F1E30004AD134 /* Preview Assets.xcassets in Resources */,
 				695C797D2C92EB69004AD134 /* gramophone.usdz in Resources */,
 				695C79772C8F3A2B004AD134 /* toycar.usdz in Resources */,
+				695C79852C9469D2004AD134 /* flower_tulip.usdz in Resources */,
+				695C79842C9469D2004AD134 /* sneaker_pegasustrail.usdz in Resources */,
 				695C797B2C92EB16004AD134 /* cup_saucer_set.usdz in Resources */,
+				695C797F2C933573004AD134 /* robot_walk_idle.usdz in Resources */,
 				695C79792C92EB0C004AD134 /* chair_swan.usdz in Resources */,
+				695C79812C9469B5004AD134 /* fender_stratocaster.usdz in Resources */,
 				695C794F2C8F1E30004AD134 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
